@@ -27,6 +27,14 @@ def main():
     beer2 = Beverage("Beer", contains_alcohol=True)
     beer2.drink(adult)
 
+    # JSON snapshots
+    adult.to_json()
+    child.to_json()
+    juice.to_json()
+    juice2.to_json()
+    beer.to_json()
+    beer2.to_json()
+
 
 if __name__ == "__main__":
     main()

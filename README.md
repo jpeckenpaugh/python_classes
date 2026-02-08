@@ -7,6 +7,7 @@ This repo is a small, progressive demo of Python classes, inheritance, and simpl
 - `food.py`
   - Base class: `Food`
   - Subclasses: `Fruit`, `Meat`, `Beverage`
+- `meal.py`
   - Composition: `Meal`
 - `person.py`
   - Base class: `Person`
@@ -45,12 +46,14 @@ Example progression:
 - `example03.py` — `Fruit` washing/ripening + `Meat`
 - `example04.py` — Allergies, `Vegetarian`, and diabetic fruit limit
 - `example05.py` — `Beverage` with adult vs child
-- `example06.py` — `Meal` with beverages and age rules
+- `example06.py` — Allergy restriction example
+- `example07.py` — `Meal` with beverages and age rules
 - `example.py` — Full demo combining multiple features
 
 ## Files
 
 - `food.py`
+- `meal.py`
 - `person.py`
 - `example.py`
 - `example01.py`
@@ -59,3 +62,4 @@ Example progression:
 - `example04.py`
 - `example05.py`
 - `example06.py`
+- `example07.py`

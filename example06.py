@@ -1,30 +1,29 @@
-﻿from food import Beverage, Meal
+﻿from food import Beverage, Fruit
 from person import Person
 
 
 def main():
-    # Create an adult and a child
-    adult = Person("Dana", age=30)
-    child = Person("Eli", age=12)
+    # Create a person with an allergy
+    alex = Person("Alex", allergies=["apple"])
 
-    # Create beverages
-    lemonade = Beverage("Lemonade", contains_alcohol=False)
-    wine = Beverage("Wine", contains_alcohol=True)
+    # Create foods and drinks
+    apple = Fruit("Apple")
+    apple_juice = Beverage("Apple Juice", contains_alcohol=False)
 
-    # Wash hands before drinking
-    adult.wash_hands()
-    child.wash_hands()
+    # Wash hands before eating/drinking
+    alex.wash_hands()
 
-    # Build and prep a meal
-    meal = Meal([lemonade, wine])
-    meal.prep()
+    # Allergy restriction blocks both apple and apple juice
+    apple.wash()
+    apple.ripen()
+    apple.eat(alex)
 
-    # Eat the meal (round-robin)
-    meal.eat([adult, child])
+    apple_juice.drink(alex)
 
-    # Show final status
-    adult.show_status()
-    child.show_status()
+    # JSON snapshots
+    alex.to_json()
+    apple.to_json()
+    apple_juice.to_json()
 
 
 if __name__ == "__main__":

@@ -17,6 +17,10 @@ def main():
     steak.cook()
     steak.eat(ben)
 
+    # JSON snapshots
+    ben.to_json()
+    steak.to_json()
+
 
 if __name__ == "__main__":
     main()

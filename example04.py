@@ -35,6 +35,14 @@ def main():
     apple2.ripen()
     apple2.eat(ben)
 
+    # JSON snapshots
+    alice.to_json()
+    ben.to_json()
+    apple.to_json()
+    peanut_bar.to_json()
+    steak.to_json()
+    apple2.to_json()
+
 
 if __name__ == "__main__":
     main()

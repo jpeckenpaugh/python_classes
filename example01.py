@@ -13,6 +13,10 @@ def main():
     # Eat the food
     food.eat(person)
 
+    # JSON snapshots
+    person.to_json()
+    food.to_json()
+
 
 if __name__ == "__main__":
     main()

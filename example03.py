@@ -22,6 +22,11 @@ def main():
     steak.cook()
     steak.eat(person)
 
+    # JSON snapshots
+    person.to_json()
+    apple.to_json()
+    steak.to_json()
+
 
 if __name__ == "__main__":
     main()

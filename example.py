@@ -1,4 +1,5 @@
-﻿from food import Fruit, Meat, Meal
+﻿from food import Fruit, Meat
+from meal import Meal
 from person import Person, Vegetarian
 
 

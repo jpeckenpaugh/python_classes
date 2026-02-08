@@ -152,11 +152,50 @@ class Beverage(Food):
 
     def drink(self, person):
         """Drink the beverage using base eating rules."""
-        if self.contains_alcohol and isinstance(person, Person) and person.age < 21:
+        if not isinstance(person, Person):
+            print("Can only drink beverages with a Person.")
+            return
+
+        if self.contains_alcohol and person.age < 21:
             print(f"{person.name} cannot drink {self.name}. Must be 21+.")
             person.show_status()
             return
-        super().eat(person)
+
+        if not self.is_edible:
+            print(f"{self.name} is not edible.")
+            return
+
+        if self.eaten:
+            print(f"{self.name} has already been drunk by {self.eater}.")
+            return
+
+        if person.hands != Person.HANDS_CLEAN:
+            print(f"{person.name} cannot drink {self.name}. Hands are not clean.")
+            person.show_status()
+            return
+
+        if person.is_full:
+            print(f"{person.name} cannot drink {self.name}. They are already full.")
+            person.show_status()
+            return
+
+        allergy_match = None
+        for allergy in person.allergies:
+            if re.search(allergy, self.name, flags=re.IGNORECASE):
+                allergy_match = allergy
+                break
+
+        if allergy_match is not None:
+            print(f"{person.name} cannot drink {self.name}. Allergy match: {allergy_match}")
+            person.show_status()
+            return
+
+        self.eaten = True
+        self.eater = person.name
+        person.is_full = True
+
+        print(f"{person.name} has drunk {self.name}.")
+        person.show_status()
 
     def eat(self, person):
         """Alias to drink for compatibility with Food interface."""
@@ -166,80 +205,4 @@ class Beverage(Food):
         """Return a dictionary snapshot of the beverage state."""
         data = super().to_dict()
         data["contains_alcohol"] = self.contains_alcohol
-        return data
-
-
-class Meal:
-    """Collection of foods that can be prepped and eaten by a group."""
-
-    def __init__(self, foods):
-        """Create a meal from a list of foods."""
-        self.foods = list(foods)
-
-    def prep(self):
-        """Prepare foods by washing/ripening fruit and cooking meat."""
-        for food in self.foods:
-            if isinstance(food, Fruit):
-                if not food.is_washed:
-                    food.wash()
-                if not food.is_ripe:
-                    food.ripen()
-                continue
-
-            if isinstance(food, Meat):
-                if not food.is_edible:
-                    food.cook()
-                continue
-
-            if not food.is_edible:
-                print(f"No prep method for {food.name}.")
-
-    def eat(self, persons):
-        """Feed foods to people using a round-robin strategy."""
-        persons = list(persons)
-        if not persons:
-            print("No persons to eat the meal.")
-            return
-        original_fullness = {person: person.is_full for person in persons}
-        ate_any = {person: False for person in persons}
-        for person in persons:
-            person.is_full = False
-
-        start_index = 0
-        for food in self.foods:
-            if food.eaten:
-                continue
-
-            ate = False
-            for offset in range(len(persons)):
-                person = persons[(start_index + offset) % len(persons)]
-                before = food.eaten
-                food.eat(person)
-                if not before and food.eaten:
-                    ate = True
-                    ate_any[person] = True
-                    person.is_full = False
-                    start_index = (start_index + offset + 1) % len(persons)
-                    break
-
-            if not ate:
-                print(f"No one could eat {food.name}.")
-
-        for person in persons:
-            if ate_any[person]:
-                person.is_full = True
-            else:
-                person.is_full = original_fullness[person]
-
-    def to_dict(self):
-        """Return a dictionary snapshot of the meal state."""
-        return {
-            "type": self.__class__.__name__,
-            "foods": [food.to_dict() for food in self.foods],
-        }
-
-    def to_json(self):
-        """Print and return a JSON snapshot of the meal state."""
-        data = self.to_dict()
-        print(json.dumps(data))
         return data
